@@ -5,25 +5,32 @@
 # Maintainer: Filipe Laíns (FFY00) <lains@archlinux.org>
 # Maintainer: Daniel M. Capella <polyzen@archlinux.org>
 
-_pkgname=installer
-pkgname=python-$_pkgname
+_py=python
+_pkg=installer
+pkgname="${_py}-${_pkg}"
 pkgver=0.7.0
 pkgrel=8
 pkgdesc='Low-level library for installing a Python package from a wheel distribution'
-arch=('any')
+arch=(
+  'any'
+)
 url='https://github.com/pypa/installer'
-license=('MIT')
-depends=('python')
+license=(
+  'MIT'
+)
+depends=(
+  "${_py}"
+)
 makedepends=(
   'git'
-  'python-flit-core'
-  'python-build'
+  "${_py}-flit-core"
+  "${_py}-build"
 )
 checkdepends=(
-  'python-pytest'
+  "${_py}-pytest"
 )
 source=(
-  "$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
+  "${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 sha512sums=(
   'a509c6ea9d88b8527cce0428ca6109077820cb9aa352967a389012bac40f8ec04039ab73710f4fb32b32ed20affd520ce0ba16ba18d9d380ce0af1f51fe8e2c6'
@@ -31,7 +38,7 @@ sha512sums=(
 
 build() {
   cd \
-    "${_pkgname}-${pkgver}"
+    "${_pkg}-${pkgver}"
   "${_py}" \
     -m \
       build \
@@ -41,14 +48,14 @@ build() {
 
 check() {
   cd \
-    "${_pkgname}-${pkgver}"
+    "${_pkg}-${pkgver}"
   PYTHONPATH=src \
     pytest
 }
 
 package() {
   cd \
-    "${_pkgname}-${pkgver}"
+    "${_pkg}-${pkgver}"
   PYTHONPATH=src \
     "${_py}" \
       -m installer \
